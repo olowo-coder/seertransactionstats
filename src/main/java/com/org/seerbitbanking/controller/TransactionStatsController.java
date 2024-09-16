@@ -26,7 +26,7 @@ public class TransactionStatsController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addTransaction(@RequestBody TransactionRequest request) {
+    public ResponseEntity<?> addTransaction(@RequestBody String request) {
         return ResponseEntity.status(transactionService.addTransaction(request)).build();
     }
 

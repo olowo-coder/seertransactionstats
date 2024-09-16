@@ -1,5 +1,10 @@
 package com.org.seerbitbanking.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.org.seerbitbanking.dto.request.TransactionRequest;
 import com.org.seerbitbanking.dto.response.StatsResponse;
 import com.org.seerbitbanking.model.Stats;
@@ -23,10 +28,15 @@ public class TransactionServiceImpl implements TransactionService {
     private final Logger log = LoggerFactory.getLogger(TransactionServiceImpl.class);
     private final List<Transaction> transactions = new CopyOnWriteArrayList<>();
 
+    private ObjectMapper MAPPER = new ObjectMapper()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
     @Override
-    public int addTransaction(TransactionRequest request) {
-        log.info("Passed transaction {}", request);
+    public int addTransaction(String jsonPayload) {
+        log.info("Passed transaction {}", jsonPayload);
         try {
+            TransactionRequest request = MAPPER.readValue(jsonPayload, TransactionRequest.class);
             BigDecimal amount = new BigDecimal(request.getAmount());
             ZonedDateTime timestamp = ZonedDateTime.parse(request.getTimestamp());
 
@@ -43,9 +53,12 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (NumberFormatException | DateTimeParseException ex) {
             log.error("Failed to parse date ", ex);
             return HttpStatus.UNPROCESSABLE_ENTITY.value();
+        } catch (JsonProcessingException ex) {
+            log.error("Failed to parse date ", ex);
+            return HttpStatus.BAD_REQUEST.value();
         } catch (Exception ex) {
             log.error("Failed to process transaction ", ex);
-            return HttpStatus.BAD_REQUEST.value();
+            return HttpStatus.INTERNAL_SERVER_ERROR.value();
         }
     }
 

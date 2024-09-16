@@ -45,10 +45,10 @@ class TransactionStatsControllerTest {
     @Test
     void testAddTransactionIsSuccess() throws Exception {
         TransactionRequest request = new TransactionRequest();
-        when(mockTransactionService.addTransaction(any(TransactionRequest.class))).thenReturn(201);
+        when(mockTransactionService.addTransaction(any(String.class))).thenReturn(201);
 
         final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
-                        .content(MAPPER.writeValueAsString(request))
+                        .content(MAPPER.writeValueAsString("request"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
@@ -59,7 +59,7 @@ class TransactionStatsControllerTest {
     @Test
     void testAddTransactionIsInvalidJson() throws Exception {
         TransactionRequest request = new TransactionRequest();
-        when(mockTransactionService.addTransaction(any(TransactionRequest.class))).thenReturn(400);
+        when(mockTransactionService.addTransaction(any(String.class))).thenReturn(400);
 
         final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
                 .content(MAPPER.writeValueAsString(request))
@@ -73,7 +73,7 @@ class TransactionStatsControllerTest {
     @Test
     void testAddTransactionIsOlder() throws Exception {
         TransactionRequest request = new TransactionRequest();
-        when(mockTransactionService.addTransaction(any(TransactionRequest.class))).thenReturn(204);
+        when(mockTransactionService.addTransaction(any(String.class))).thenReturn(204);
 
         final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
                 .content(MAPPER.writeValueAsString(request))
@@ -87,7 +87,7 @@ class TransactionStatsControllerTest {
     @Test
     void testAddTransactionIsFuture() throws Exception {
         TransactionRequest request = new TransactionRequest();
-        when(mockTransactionService.addTransaction(any(TransactionRequest.class))).thenReturn(422);
+        when(mockTransactionService.addTransaction(any(String.class))).thenReturn(422);
 
         final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
                 .content(MAPPER.writeValueAsString(request))

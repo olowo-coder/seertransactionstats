@@ -7,7 +7,7 @@ import com.org.seerbitbanking.model.Transaction;
 
 public interface TransactionService {
 
-    int addTransaction(TransactionRequest request);
+    int addTransaction(String jsonPayload);
 
     StatsResponse getStats();
 
