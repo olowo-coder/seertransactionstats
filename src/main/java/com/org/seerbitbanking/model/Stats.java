@@ -23,6 +23,26 @@ public class Stats {
         }
     }
 
+    public void setSum(BigDecimal sum) {
+        this.sum = sum;
+    }
+
+    public void setAvg(BigDecimal avg) {
+        this.avg = avg;
+    }
+
+    public void setMax(BigDecimal max) {
+        this.max = max;
+    }
+
+    public void setMin(BigDecimal min) {
+        this.min = min;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
     public BigDecimal getSum() {
         return sum;
     }

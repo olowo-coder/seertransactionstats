@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.org</groupId>
     <artifactId>seerbitbanking</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>seerbitbanking</name>
-    <description>seerbitbanking</description>
+    <description>To handle transaction stats</description>
     <url/>
     <licenses>
         <license/>
@@ -43,6 +43,7 @@
     </dependencies>
 
     <build>
+        <finalName>transactionstats-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
