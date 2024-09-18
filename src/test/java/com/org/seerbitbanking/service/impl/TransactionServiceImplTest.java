@@ -6,13 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.org.seerbitbanking.dto.request.TransactionRequest;
 import com.org.seerbitbanking.dto.response.StatsResponse;
-import com.org.seerbitbanking.model.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +31,7 @@ class TransactionServiceImplTest {
     void testAddTransaction() throws JsonProcessingException {
         final TransactionRequest request = new TransactionRequest();
         request.setAmount("100.00");
-        request.setTimestamp(ZonedDateTime.now().minusSeconds(20).toString());
+        request.setTimestamp(Instant.now().minusSeconds(20).toString());
         final int result = transactionServiceImplUnderTest.addTransaction(MAPPER.writeValueAsString(request));
 
         assertThat(result).isEqualTo(201);
@@ -44,7 +41,7 @@ class TransactionServiceImplTest {
     void testAddTransactionIsBefore30() throws JsonProcessingException {
         final TransactionRequest request = new TransactionRequest();
         request.setAmount("100.00");
-        request.setTimestamp(ZonedDateTime.now().minusSeconds(35).toString());
+        request.setTimestamp(Instant.now().minusSeconds(35).toString());
         final int result = transactionServiceImplUnderTest.addTransaction(MAPPER.writeValueAsString(request));
 
         assertThat(result).isEqualTo(204);
@@ -54,7 +51,7 @@ class TransactionServiceImplTest {
     void testAddTransactionIsAfter30() throws JsonProcessingException {
         final TransactionRequest request = new TransactionRequest();
         request.setAmount("100.00");
-        request.setTimestamp(ZonedDateTime.now().plusSeconds(35).toString());
+        request.setTimestamp(Instant.now().plusSeconds(35).toString());
         final int result = transactionServiceImplUnderTest.addTransaction(MAPPER.writeValueAsString(request));
 
         assertThat(result).isEqualTo(422);
@@ -80,7 +77,7 @@ class TransactionServiceImplTest {
     void testGetStats() throws JsonProcessingException {
         final TransactionRequest request = new TransactionRequest();
         request.setAmount("100.00");
-        request.setTimestamp(ZonedDateTime.now().minusSeconds(20).toString());
+        request.setTimestamp(Instant.now().minusSeconds(20).toString());
         transactionServiceImplUnderTest.addTransaction(MAPPER.writeValueAsString(request));
 
         final StatsResponse result = transactionServiceImplUnderTest.getStats();

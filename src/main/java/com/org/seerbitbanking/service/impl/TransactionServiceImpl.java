@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeParseException;
@@ -34,17 +35,20 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public int addTransaction(String jsonPayload) {
-        log.info("Passed transaction {}", jsonPayload);
+        log.info("Sent request {}", jsonPayload);
         try {
             TransactionRequest request = MAPPER.readValue(jsonPayload, TransactionRequest.class);
             BigDecimal amount = new BigDecimal(request.getAmount());
-            ZonedDateTime timestamp = ZonedDateTime.parse(request.getTimestamp());
+            Instant timestamp = Instant.parse(request.getTimestamp());
 
-            if (timestamp.isAfter(ZonedDateTime.now())) {
+            Instant nowTime = Instant.now();
+            log.info("parsedDate time {} and instantTime  {}", timestamp, nowTime);
+
+            if (timestamp.isAfter(nowTime)) {
                 return HttpStatus.UNPROCESSABLE_ENTITY.value();
             }
 
-            if (timestamp.isBefore(ZonedDateTime.now().minusSeconds(30))) {
+            if (timestamp.isBefore(nowTime.minusSeconds(30))) {
                 return HttpStatus.NO_CONTENT.value();
             }
 
@@ -65,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public StatsResponse getStats() {
         Stats stats = new Stats();
-        ZonedDateTime now = ZonedDateTime.now();
+        Instant now = Instant.now();
         for (Transaction t : transactions) {
             if (t.getTimestamp().isAfter(now.minusSeconds(30))) {
                 stats.updateStats(t.getAmount());

@@ -1,13 +1,13 @@
 package com.org.seerbitbanking.model;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 public class Transaction {
     private BigDecimal amount;
-    private ZonedDateTime timestamp;
+    private Instant timestamp;
 
-    public Transaction(BigDecimal amount, ZonedDateTime timestamp) {
+    public Transaction(BigDecimal amount, Instant timestamp) {
         this.amount = amount;
         this.timestamp = timestamp;
     }
@@ -16,7 +16,7 @@ public class Transaction {
         return amount;
     }
 
-    public ZonedDateTime getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 }
