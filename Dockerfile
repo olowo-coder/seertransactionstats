@@ -1,5 +1,9 @@
-FROM openjdk:17-jre-slim
-# Copy the jar file
+FROM openjdk:17
+
+WORKDIR /app
+
 COPY target/transactionstats-api.jar app.jar
-# Run the application
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

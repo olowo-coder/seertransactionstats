@@ -77,7 +77,7 @@ Step 4.2: Run the Docker Container
 To start the container, map it to port 8080:
 
 ```bash
-docker run -p 8080:8080 transaction-statistics-api
+docker run -p 8080:8080 transactionstats-api
 ```
 The API will be accessible at http://localhost:8080.
 

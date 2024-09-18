@@ -51,7 +51,7 @@ Response Codes:
    Make sure you have Java 17+ and Maven installed. To build the project and ensure all dependencies are correctly resolved, run:
 
 ```bash
-mvn clean install
+mvn clean package
 ```
 
 3. Run the Application Locally
@@ -68,7 +68,7 @@ By default, the application will be available at http://localhost:8080.
 
  - Step 4.1: Build the Docker Image
 ```bash
-docker build -t transaction-statistics-api 
+docker build -t transactionstats-api .
 ```
 
 This command will create a Docker image named transaction-statistics-api.
