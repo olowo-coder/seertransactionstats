@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
 @RequestMapping(TransactionStatsController.API_BASE)
 public class TransactionStatsController {
 
-    public static final String API_BASE = "/api/v1/transaction-stats";
+    public static final String API_BASE = "/transaction";
 
 
     private final TransactionService transactionService;
