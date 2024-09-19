@@ -12,8 +12,8 @@ RUN mvn dependency:go-offline
 
 ADD . .
 
-RUN mvn install
+RUN mvn clean package
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "/opt/app/target/transactionstats-api.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/app/target/transactionstats-api.jar"]
