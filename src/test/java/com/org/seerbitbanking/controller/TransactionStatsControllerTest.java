@@ -30,8 +30,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebMvcTest(TransactionStatsController.class)
 class TransactionStatsControllerTest {
 
-    private final String BASE_PATH = TransactionStatsController.API_BASE;
-
     private ObjectMapper MAPPER = new ObjectMapper()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -47,7 +45,7 @@ class TransactionStatsControllerTest {
         TransactionRequest request = new TransactionRequest();
         when(mockTransactionService.addTransaction(any(String.class))).thenReturn(201);
 
-        final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(post("/transactions")
                         .content(MAPPER.writeValueAsString("request"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -61,7 +59,7 @@ class TransactionStatsControllerTest {
         TransactionRequest request = new TransactionRequest();
         when(mockTransactionService.addTransaction(any(String.class))).thenReturn(400);
 
-        final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(post("/transactions")
                 .content(MAPPER.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -75,7 +73,7 @@ class TransactionStatsControllerTest {
         TransactionRequest request = new TransactionRequest();
         when(mockTransactionService.addTransaction(any(String.class))).thenReturn(204);
 
-        final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(post("/transactions")
                 .content(MAPPER.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -89,7 +87,7 @@ class TransactionStatsControllerTest {
         TransactionRequest request = new TransactionRequest();
         when(mockTransactionService.addTransaction(any(String.class))).thenReturn(422);
 
-        final MockHttpServletResponse response = mockMvc.perform(post(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(post("/transactions")
                 .content(MAPPER.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -105,7 +103,7 @@ class TransactionStatsControllerTest {
         StatsResponse statsResponse = new StatsResponse(stats);
         when(mockTransactionService.getStats()).thenReturn(statsResponse);
 
-        final MockHttpServletResponse response = mockMvc.perform(get(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(get("/statistics")
                         .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.ALL_VALUE))
                 .andReturn().getResponse();
@@ -116,7 +114,7 @@ class TransactionStatsControllerTest {
 
     @Test
     void testDeleteTransactions() throws Exception {
-        final MockHttpServletResponse response = mockMvc.perform(delete(BASE_PATH)
+        final MockHttpServletResponse response = mockMvc.perform(delete("/transactions")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 

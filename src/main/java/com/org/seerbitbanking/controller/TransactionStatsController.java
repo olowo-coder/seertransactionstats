@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping(TransactionStatsController.API_BASE)
 public class TransactionStatsController {
-
-    public static final String API_BASE = "/transaction";
 
 
     private final TransactionService transactionService;
@@ -23,17 +20,17 @@ public class TransactionStatsController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
+    @PostMapping("/transactions")
     public ResponseEntity<?> addTransaction(@RequestBody String request) {
         return ResponseEntity.status(transactionService.addTransaction(request)).build();
     }
 
-    @GetMapping
+    @GetMapping("/statistics")
     public ResponseEntity<StatsResponse> getStatistics() {
         return ResponseEntity.ok(transactionService.getStats());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/transactions")
     public ResponseEntity<?> deleteTransactions() {
         transactionService.deleteAllTransactions();
         return ResponseEntity.noContent().build();
